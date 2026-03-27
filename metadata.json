@@ -1,0 +1,5 @@
+{
+  "name": "Benchmark Explorer",
+  "description": "A tool for visually exploring complex JSON schemas and their corresponding data files.",
+  "requestFramePermissions": []
+}
