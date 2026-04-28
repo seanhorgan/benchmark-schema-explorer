@@ -24,8 +24,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { cn } from './lib/utils';
 import { JsonSchema, SchemaNode } from './types';
 
-const DEFAULT_SCHEMA_URL = "https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/benchmark_report/br_v0_2_json_schema.json";
-const DEFAULT_DATA_URL = "https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/benchmark_report/br_v0_2_example.yaml";
+// Use local files in production (Cloud Run)
+const DEFAULT_SCHEMA_URL = process.env.NODE_ENV === "production"
+  ? "/br_v0_2_json_schema.json"
+  : "https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/benchmark_report/br_v0_2_json_schema.json";
+const DEFAULT_DATA_URL = process.env.NODE_ENV === "production"
+  ? "/br_v0_2_example.yaml"
+  : "https://raw.githubusercontent.com/llm-d/llm-d-benchmark/main/benchmark_report/br_v0_2_example.yaml";
 
 const resolveRef = (ref: string, root: any): any => {
   if (!ref.startsWith('#/')) return {};
@@ -92,9 +97,9 @@ export default function App() {
 
     const metricsToFind = [
       { label: 'Model Name', path: 'system_inputs.model_config.model_name' },
-      { label: 'Precision', path: 'system_inputs.model_config.precision' },
-      { label: 'Framework', path: 'system_inputs.framework_config.framework_name' },
-      { label: 'Hardware', path: 'system_inputs.hardware_config.hardware_name' },
+      { label: 'Precision', path: 'system.inputs.model_config.precision' },
+      { label: 'Framework', path: 'system.inputs.framework_config.framework_name' },
+      { label: 'Hardware', path: 'system.inputs.hardware_config.hardware_name' },
       { label: 'Total Requests', path: 'workload.total_requests' },
       { label: 'Avg TTFT (ms)', path: 'results.ttft.avg' },
       { label: 'P99 TTFT (ms)', path: 'results.ttft.p99' },
@@ -209,7 +214,7 @@ export default function App() {
       <div className="min-h-screen bg-[#0a0a0a] text-white flex items-center justify-center font-mono">
         <div className="flex flex-col items-center gap-4">
           <div className="w-12 h-12 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-          <p className="text-sm tracking-widest uppercase opacity-50">Initializing Benchmark Explorer...</p>
+          <p className="text-sm tracking-widest uppercase opacity-50">Initializing Schema Explorer...</p>
         </div>
       </div>
     );
@@ -241,7 +246,7 @@ export default function App() {
             <Layout className="w-5 h-5 text-[#E4E3E0]" />
           </div>
           <div>
-            <h1 className="font-bold text-lg leading-none tracking-tighter uppercase">Benchmark Explorer</h1>
+            <h1 className="font-bold text-lg leading-none tracking-tighter uppercase">Schema Explorer</h1>
             <p className="text-[10px] opacity-50 uppercase font-mono tracking-wider">v0.2.0 / LLM-D Benchmark</p>
           </div>
         </div>

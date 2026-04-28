@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Example Benchmark Schema",
+  "type": "object",
+  "properties": {
+    "system_inputs": {
+      "type": "object",
+      "properties": {
+        "model_config": {
+          "type": "object",
+          "properties": {
+            "model_name": { "type": "string" },
+            "precision": { "type": "string" }
+          }
+        },
+        "framework_config": {
+          "type": "object",
+          "properties": {
+            "framework_name": { "type": "string" }
+          }
+        },
+        "hardware_config": {
+          "type": "object",
+          "properties": {
+            "hardware_name": { "type": "string" }
+          }
+        }
+      }
+    },
+    "workload": {
+      "type": "object",
+      "properties": {
+        "total_requests": { "type": "integer" }
+      }
+    },
+    "results": {
+      "type": "object",
+      "properties": {
+        "ttft": {
+          "type": "object",
+          "properties": {
+            "avg": { "type": "number" },
+            "p99": { "type": "number" }
+          }
+        },
+        "tpot": {
+          "type": "object",
+          "properties": {
+            "avg": { "type": "number" }
+          }
+        },
+        "throughput": {
+          "type": "object",
+          "properties": {
+            "req_per_sec": { "type": "number" }
+          }
+        }
+      }
+    }
+  }
+}
